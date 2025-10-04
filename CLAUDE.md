@@ -26,7 +26,7 @@ When working from a phone via claude.ai:
 
 For each change:
 1. Generate a git patch file showing the changes
-2. Save the patch with a descriptive name: `YYYY-MM-DD-description.patch`
+2. User will copy/paste and save the patch locally on their device
 3. Include the Jira task key in the patch description
 4. Document what the patch does and why
 
@@ -35,11 +35,18 @@ For each change:
 From: Claude <noreply@anthropic.com>
 Subject: [FA-X] Brief description
 
-Detailed explanation of changes
+Detailed explanation of changes and how to apply the patch.
 
 ---
-[git diff output]
+diff --git a/path/to/file b/path/to/file
+index abc123..def456 100644
+--- a/path/to/file
++++ b/path/to/file
+@@ -1,3 +1,5 @@
+[actual diff content]
 ```
+
+**Note**: Patches are NOT committed to the repository. The user saves them locally and applies them when back at their computer.
 
 **Context for Claude Web**:
 - Reference the active Jira task (FA-X) in all work

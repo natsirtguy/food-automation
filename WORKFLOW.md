@@ -129,23 +129,29 @@ index 0000000..1234567
 
 ### Saving Patches
 
-1. Copy the patch content
-2. Save to a file: `patches/YYYY-MM-DD-fa-X-description.patch`
-3. Commit the patch file to the repo (via GitHub web interface or next Claude Code session)
+1. Copy the patch content from Claude's response
+2. Save locally on your device (Notes app, files, email to yourself, etc.)
+3. Suggested naming: `YYYY-MM-DD-fa-X-description.patch`
+4. Add a Jira comment noting that a patch is ready to apply
 
 ### Applying Patches (Back on Desktop)
 
 When you return to your computer:
 
 ```bash
-# Pull latest (including any new patch files)
+# Pull latest changes
 git pull
 
+# Save the patch to a file (copy from where you saved it)
+# For example, create a temporary patch file:
+cat > /tmp/fa-3-patch.patch
+# Paste the patch content, then Ctrl+D
+
 # Review the patch
-cat patches/2025-10-04-fa-3-openai-config.patch
+cat /tmp/fa-3-patch.patch
 
 # Apply the patch
-git apply patches/2025-10-04-fa-3-openai-config.patch
+git apply /tmp/fa-3-patch.patch
 
 # Review changes
 git diff
@@ -160,12 +166,11 @@ hatch run check
 # Fix any issues, then push
 git push
 
-# Archive the applied patch
-mkdir -p patches/applied
-git mv patches/2025-10-04-fa-3-openai-config.patch patches/applied/
-git commit -m "Archive applied patch FA-3"
-git push
+# Clean up temporary file
+rm /tmp/fa-3-patch.patch
 ```
+
+**Tip**: You can also save the patch directly to a file on your computer and use `git apply <path-to-patch-file>`.
 
 ## Coordination Between Environments
 
@@ -193,18 +198,19 @@ git push
 **Session 2 (Mobile - Claude web)**:
 1. Check Jira, see FA-3 needs API clients
 2. Review code on GitHub
-3. Generate patch for OpenAI client
-4. Save patch, commit patch file via GitHub web UI
-5. Add Jira comment: "Created patch for OpenAI client - needs testing"
+3. Ask Claude to generate patch for OpenAI client
+4. Copy patch and save locally (Notes app, email, etc.)
+5. Add Jira comment: "Created patch for OpenAI client - ready to apply when back at computer"
 
 **Session 3 (Desktop - Claude Code)**:
-1. Pull latest (gets patch file)
-2. Review and apply patch
-3. Run tests: `hatch run test`
-4. Fix any issues
-5. Commit, push
-6. Update Jira to "Done"
-7. Archive patch file
+1. Pull latest changes from GitHub
+2. Check Jira, see patch is ready
+3. Retrieve patch from where you saved it (Notes, email, etc.)
+4. Apply patch using `git apply`
+5. Run tests: `hatch run check`
+6. Fix any issues if needed
+7. Commit and push
+8. Update Jira to "Done"
 
 ## Tips and Best Practices
 
@@ -218,14 +224,15 @@ git push
 - Always create patches, never attempt to edit files
 - Include detailed explanations in patches
 - Reference the specific Jira task
-- Note in Jira that a patch is waiting to be applied
+- Note in Jira that a patch is ready to apply (include where you saved it)
 - Review the code on GitHub before suggesting changes
+- Save patches somewhere you can easily retrieve them later
 
 ### General
 - Pull before every work session
 - Use descriptive commit messages with [FA-X] prefix
 - Keep Jira updated so both environments stay coordinated
-- Archive patches after applying to keep repo clean
+- Save patches in a consistent location for easy retrieval
 
 ## Troubleshooting
 

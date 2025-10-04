@@ -44,8 +44,6 @@ htmlcov/
 
 # Project specific
 photos/
+patches/
 *.json
 !pyproject.toml
-
-# Keep patch files
-!patches/**/*.patch
