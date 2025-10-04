@@ -82,6 +82,6 @@ See `requirements.md` and `implementation-guide.md` for detailed project documen
 
 ## Project Management
 
-- **GitHub**: [Repository URL - to be added after creation]
+- **GitHub**: https://github.com/natsirtguy/food-automation
 - **Jira**: Food Automation (FA) project at natsirtguy.atlassian.net
 - **Task Tracking**: All work references Jira tasks (FA-X format)

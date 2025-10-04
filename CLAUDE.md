@@ -61,8 +61,8 @@ index abc123..def456 100644
 - Use Jira to coordinate between Claude Code and Claude web sessions
 
 ### Repository Access
-- **GitHub**: Public repository at [to be created]
-- Required for Claude web access to codebase
+- **GitHub**: https://github.com/natsirtguy/food-automation
+- Public repository required for Claude web access to codebase
 - All changes should go through git (patches or direct commits)
 
 ## Development Approach
