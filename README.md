@@ -2,6 +2,16 @@
 
 AI-powered food inventory monitoring system that tracks what food you have, quantities, and freshness without requiring daily user input.
 
+## Development Workflow
+
+This project supports **hybrid development** from both desktop and mobile:
+- **Desktop**: Use Claude Code for full development
+- **Mobile**: Use Claude web with patch-based workflow
+
+**📋 See [WORKFLOW.md](WORKFLOW.md) for complete workflow documentation**
+
+**📝 See [CLAUDE.md](CLAUDE.md) for project context and AI assistant guidance**
+
 ## Setup
 
 ### Requirements
@@ -69,3 +79,9 @@ hatch run check
 Currently implementing **Phase 1: AI Processing Pipeline** (Epic FA-1).
 
 See `requirements.md` and `implementation-guide.md` for detailed project documentation.
+
+## Project Management
+
+- **GitHub**: [Repository URL - to be added after creation]
+- **Jira**: Food Automation (FA) project at natsirtguy.atlassian.net
+- **Task Tracking**: All work references Jira tasks (FA-X format)

@@ -46,3 +46,6 @@ htmlcov/
 photos/
 *.json
 !pyproject.toml
+
+# Keep patch files
+!patches/**/*.patch

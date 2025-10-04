@@ -8,6 +8,56 @@ Food Automation is an AI-powered food inventory monitoring system that automatic
 
 **Key Philosophy**: Start simple (Python + JSON + smartphone photos), prove the concept with AI processing first, then build proper data models, and finally add hardware automation.
 
+## Development Workflow
+
+This project uses a **hybrid development approach**:
+
+### Claude Code (Desktop)
+When working from a computer, use Claude Code for full development capabilities including:
+- Direct file editing and commits
+- Running tests and code quality checks
+- Updating Jira tasks
+- Git operations
+
+### Claude Web (Mobile)
+When working from a phone via claude.ai:
+
+**IMPORTANT**: You must create patches for ALL code changes instead of editing files directly.
+
+For each change:
+1. Generate a git patch file showing the changes
+2. Save the patch with a descriptive name: `YYYY-MM-DD-description.patch`
+3. Include the Jira task key in the patch description
+4. Document what the patch does and why
+
+**Patch Format**:
+```
+From: Claude <noreply@anthropic.com>
+Subject: [FA-X] Brief description
+
+Detailed explanation of changes
+
+---
+[git diff output]
+```
+
+**Context for Claude Web**:
+- Reference the active Jira task (FA-X) in all work
+- This file (CLAUDE.md) provides project context
+- See WORKFLOW.md for detailed patch workflow
+- Check requirements.md and implementation-guide.md for project details
+
+### Jira Task Management
+- All development work should reference a Jira task (FA-X)
+- Update task status as work progresses
+- Add comments to tasks documenting significant progress
+- Use Jira to coordinate between Claude Code and Claude web sessions
+
+### Repository Access
+- **GitHub**: Public repository at [to be created]
+- Required for Claude web access to codebase
+- All changes should go through git (patches or direct commits)
+
 ## Development Approach
 
 ### Phase-Based Implementation
