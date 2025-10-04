@@ -234,6 +234,65 @@ rm /tmp/fa-3-patch.patch
 - Keep Jira updated so both environments stay coordinated
 - Save patches in a consistent location for easy retrieval
 
+### Documentation and Serena Memory Updates
+
+**IMPORTANT**: Only update documentation and Serena memory files **after completing a Jira task unit of work**, not during ongoing development.
+
+#### When to Update
+
+Update documentation/memory when:
+- ✅ A Jira task (FA-X) is fully completed and tested
+- ✅ Significant architectural changes have been implemented
+- ✅ New modules, patterns, or conventions are established
+- ✅ Project structure or tech stack changes
+
+Do NOT update for:
+- ❌ Work in progress on a task
+- ❌ Minor bug fixes or tweaks
+- ❌ Experimental code that might be reverted
+- ❌ Partial implementations
+
+#### What to Update
+
+After completing a Jira task:
+
+**Documentation Files** (if relevant):
+- `README.md` - If setup instructions or usage changed
+- `CLAUDE.md` - If project context or workflow changed
+- `requirements.md` / `implementation-guide.md` - If requirements evolved
+
+**Serena Memory Files** (use `write_memory` tool):
+- `project_overview` - If project scope or phases changed
+- `tech_stack` - If new dependencies or tools added
+- `code_style_and_conventions` - If new patterns established
+- `suggested_commands` - If new commands or workflows added
+- `task_completion_checklist` - If completion process changed
+- `codebase_structure` - If new modules or reorganization happened
+
+#### How to Update
+
+```bash
+# After completing FA-X task and before marking it Done:
+
+# 1. Review what changed
+git log --oneline -5
+
+# 2. Update relevant documentation files (if needed)
+# Edit README.md, CLAUDE.md, etc.
+
+# 3. Update Serena memories via Claude Code
+# Ask: "Update Serena memory for [topic] based on changes in FA-X"
+
+# 4. Commit documentation updates
+git add .
+git commit -m "[FA-X] Update documentation and Serena memories"
+git push
+
+# 5. Mark Jira task as Done
+```
+
+**Rationale**: Keeping documentation and memory updates tied to Jira tasks ensures they reflect stable, tested changes rather than work-in-progress, making the project easier to understand and maintain.
+
 ## Troubleshooting
 
 ### Patch Won't Apply
