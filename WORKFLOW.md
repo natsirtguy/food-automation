@@ -219,6 +219,7 @@ rm /tmp/fa-3-patch.patch
 - Keep commits focused and reference Jira tasks
 - Update Jira status as you progress
 - Push frequently so mobile sessions have latest code
+- **Mark Jira tasks Done** only after code is pushed to GitHub (for coding tasks)
 
 ### For Claude Web Sessions
 - Always create patches, never attempt to edit files
@@ -227,12 +228,27 @@ rm /tmp/fa-3-patch.patch
 - Note in Jira that a patch is ready to apply (include where you saved it)
 - Review the code on GitHub before suggesting changes
 - Save patches somewhere you can easily retrieve them later
+- **Do NOT mark Jira coding tasks as Done** - only Claude Code/user can do this after pushing to GitHub
 
 ### General
 - Pull before every work session
 - Use descriptive commit messages with [FA-X] prefix
 - Keep Jira updated so both environments stay coordinated
 - Save patches in a consistent location for easy retrieval
+
+### Jira Task Completion Policy
+
+**For Coding Tasks:**
+- ✅ Only mark as "Done" **after code is pushed to GitHub**
+- ✅ Claude Code or user marks tasks Done (not Claude web)
+- ✅ Claude web can update status to "In Progress" or add comments
+- ❌ Claude web should NOT mark coding tasks as "Done"
+
+**Rationale**: Tasks should only be marked Done when the code is in the repository, not just when a patch exists. Since Claude web cannot push to GitHub, it cannot mark coding tasks complete.
+
+**User Override**: The user can override this and mark tasks Done manually at any time if they choose.
+
+**Non-Coding Tasks**: Research, documentation, or planning tasks can be marked Done without requiring a git push.
 
 ### Documentation and Serena Memory Updates
 

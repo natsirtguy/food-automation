@@ -60,6 +60,12 @@ index abc123..def456 100644
 - Add comments to tasks documenting significant progress
 - Use Jira to coordinate between Claude Code and Claude web sessions
 
+**Task Completion Policy**:
+- **Claude Code**: Mark coding tasks "Done" only after code is pushed to GitHub
+- **Claude Web**: Do NOT mark coding tasks "Done" (can update to "In Progress" or add comments)
+- **Non-coding tasks** (research, planning): Can be marked Done without git push
+- **User override**: User can mark tasks Done manually at any time
+
 ### Repository Access
 - **GitHub**: https://github.com/natsirtguy/food-automation
 - Public repository required for Claude web access to codebase
