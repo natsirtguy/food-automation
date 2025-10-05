@@ -1,0 +1,93 @@
+name: Apply Patch to PR
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  create-pr-from-patch:
+    if: github.event.label.name == 'apply-patch'
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Extract patch from issue
+        id: extract
+        run: |
+          # Save issue body to file
+          cat > issue_body.txt << 'EOF'
+          ${{ github.event.issue.body }}
+          EOF
+          
+          # Extract patch content between ```patch and ``` markers
+          sed -n '/```patch/,/```/p' issue_body.txt | sed '1d;$d' > patch.diff
+          
+          # Check if patch exists and has content
+          if [ ! -s patch.diff ]; then
+            echo "error=No patch found in issue body" >> $GITHUB_OUTPUT
+            exit 1
+          fi
+          
+          # Extract Jira task key from issue title if present
+          TASK=$(echo "${{ github.event.issue.title }}" | grep -oP '\[FA-\d+\]' || echo "")
+          echo "task=${TASK}" >> $GITHUB_OUTPUT
+          
+      - name: Validate patch
+        run: |
+          # Check if patch applies cleanly
+          if ! git apply --check patch.diff; then
+            echo "❌ Patch does not apply cleanly"
+            cat patch.diff
+            exit 1
+          fi
+          
+      - name: Apply patch
+        run: |
+          git apply patch.diff
+          
+      - name: Create Pull Request
+        id: create_pr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            ${{ steps.extract.outputs.task }} ${{ github.event.issue.title }}
+            
+            Patch from issue #${{ github.event.issue.number }}
+          branch: patch-issue-${{ github.event.issue.number }}
+          delete-branch: true
+          title: "${{ steps.extract.outputs.task }} ${{ github.event.issue.title }}"
+          body: |
+            ## Patch from Issue #${{ github.event.issue.number }}
+            
+            **Original Issue**: #${{ github.event.issue.number }}
+            ${{ steps.extract.outputs.task && format('**Jira Task**: {0}', steps.extract.outputs.task) || '' }}
+            
+            ### Changes
+            This PR applies the patch provided in the issue.
+            
+            **Review Checklist**:
+            - [ ] Patch applies cleanly
+            - [ ] Code follows project conventions
+            - [ ] Tests pass (run `hatch run check`)
+            
+            ---
+            _Auto-generated from patch in issue. Close this PR if the patch should not be applied._
+          
+      - name: Comment on issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `✅ Patch extracted successfully!\n\n📋 **Pull Request**: #${{ steps.create_pr.outputs.pull-request-number }}\n🔗 ${{ steps.create_pr.outputs.pull-request-url }}\n\nReview and merge the PR when ready. This issue will remain open for reference.`
+            })
