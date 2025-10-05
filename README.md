@@ -16,7 +16,7 @@ This project supports **hybrid development** from both desktop and mobile:
 
 ### Requirements
 
-- Python 3.13+
+- Python 3.12+
 - [Hatch](https://hatch.pypa.io/) for project management
 
 ### Installation
