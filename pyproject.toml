@@ -7,7 +7,7 @@ name = "food-automation"
 version = "0.1.0"
 description = "AI-powered food inventory monitoring system"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 license = "MIT"
 authors = [
     { name = "Tristan McKinney" },
@@ -24,6 +24,7 @@ fridge = "food_automation.cli:main"
 dependencies = [
     "pytest>=7.0.0",
     "pyright>=1.1.0",
+    "ruff>=0.1.0",
 ]
 
 [tool.hatch.envs.default.scripts]
@@ -38,7 +39,7 @@ packages = ["src/food_automation"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py313"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = [
@@ -54,9 +55,8 @@ select = [
 ]
 
 [tool.pyright]
-venvPath = "."
-venv = ".venv"
-pythonVersion = "3.13"
+venvPath = ".hatch"
+venv = "food-automation"
 typeCheckingMode = "standard"
 reportMissingImports = true
 reportMissingTypeStubs = false
