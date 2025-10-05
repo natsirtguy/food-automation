@@ -25,16 +25,16 @@ jobs:
           cat > issue_body.txt << 'EOF'
           ${{ github.event.issue.body }}
           EOF
-          
-          # Extract patch content between ```patch and ``` markers
-          sed -n '/```patch/,/```/p' issue_body.txt | sed '1d;$d' > patch.diff
-          
+
+          # Use entire issue body as patch
+          cp issue_body.txt patch.diff
+
           # Check if patch exists and has content
           if [ ! -s patch.diff ]; then
             echo "error=No patch found in issue body" >> $GITHUB_OUTPUT
             exit 1
           fi
-          
+
           # Extract Jira task key from issue title if present
           TASK=$(echo "${{ github.event.issue.title }}" | grep -oP '\[FA-\d+\]' || echo "")
           echo "task=${TASK}" >> $GITHUB_OUTPUT

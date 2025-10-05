@@ -91,32 +91,32 @@ When using Claude web, you **cannot edit files directly**. Instead, create patch
 
 ### Creating Patches with GitHub Issue Format
 
-Ask Claude to generate a patch formatted as a GitHub issue:
+Ask Claude to generate a patch for the GitHub issue workflow:
 
 ```
 I'm working on FA-X. Please create a patch for [describes the change].
-Format it as a GitHub issue for the patch-to-PR workflow.
+Save it to outputs for the GitHub issue patch-to-PR workflow.
 ```
 
 **What Claude Does:**
 1. **Pulls actual code** from GitHub repository
-2. **Generates real patch** using git tools (not guessing)
-3. **Creates markdown artifact** with the issue body (description + patch block)
-4. **Provides title separately** for you to copy
+2. **Generates real patch** using git format-patch
+3. **Saves patch file** in location for user to download
+4. **Provides download link** and GitHub issue title
 
 **What You Get:**
-- **Title** (copy separately): Brief description of the change
-- **Artifact** (copy to paste): Complete issue body with description and patch in code block
+- **Title**: Brief description for the GitHub issue title
+- **Download link**: Patch file ready to download
+- **Instructions**: How to upload to GitHub issue
 
-### Using the Patch Artifact
+### Using the Patch File
 
-1. **Copy the title** Claude provides
-2. **Copy the artifact content** (the full markdown with description + patch)
-3. Open **GitHub mobile app** → Issues → New Issue
-4. Paste **title** into title field
-5. Paste **artifact content** into body field
-6. Add label: **`apply-patch`**
-7. Submit
+1. **Download the patch file** from Claude's provided link
+2. Open **GitHub mobile app** → Issues → New Issue
+3. **Paste the title** Claude provided
+4. **Upload the patch file** as the issue body (paste contents or attach)
+5. Add label: **`apply-patch`**
+6. Submit
 
 The GitHub Action will automatically create a PR from the patch!
 
@@ -133,21 +133,6 @@ When back at your computer:
 - Review the auto-created PR
 - Merge when tests pass and changes look good
 - The changes are applied to the main branch!
-
-### Legacy Method: Downloadable Patches
-
-If the GitHub issue workflow isn't working, Claude can also create downloadable patch files:
-
-```
-Create a patch for [change] and save it for download.
-```
-
-Claude saves to `/mnt/user-data/outputs/` and provides a download link.
-
-Apply later with:
-```bash
-git apply ~/Downloads/patch-file.patch
-```
 
 ## Coordination Between Environments
 
@@ -175,9 +160,9 @@ git apply ~/Downloads/patch-file.patch
 **Session 2 (Mobile - Claude web)**:
 1. Check Jira, see FA-3 needs API clients
 2. Review code on GitHub
-3. Ask Claude to generate patch formatted as GitHub issue
-4. Copy title and artifact content
-5. Create GitHub issue, paste title and body, add `apply-patch` label
+3. Ask Claude to generate patch and save to outputs
+4. Download patch file from Claude's link
+5. Create GitHub issue with title and upload patch as body, add `apply-patch` label
 6. GitHub Action auto-creates PR from patch
 7. Add Jira comment: "Created PR via patch issue - link in issue comments"
 
@@ -198,11 +183,11 @@ git apply ~/Downloads/patch-file.patch
 - **Mark Jira tasks Done** only after code is pushed to GitHub (for coding tasks)
 
 ### For Claude Web Sessions
-- Always create patches formatted as GitHub issues (artifact + title)
+- Always create patch files saved to `/mnt/user-data/outputs/` for download
 - Claude must pull real code and generate actual patches, not guess content
-- Include detailed explanations in the issue description
-- Reference the specific Jira task in issue title if applicable
-- Copy artifact to GitHub issue body, add `apply-patch` label
+- Provide clear title for GitHub issue
+- Download patch file and upload to GitHub issue body
+- Add `apply-patch` label to trigger automation
 - Review the code on GitHub before suggesting changes
 - Check auto-created PR and note PR link in Jira
 - **Do NOT mark Jira coding tasks as Done** - only Claude Code/user can do this after merging PR

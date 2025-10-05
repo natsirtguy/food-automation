@@ -25,28 +25,12 @@ When working from a phone via claude.ai:
 **IMPORTANT**: You must create patches for ALL code changes instead of editing files directly.
 
 For each change:
-1. Generate a git patch file showing the changes
-2. User will copy/paste and save the patch locally on their device
-3. Include the Jira task key in the patch description
-4. Document what the patch does and why
+1. Generate a **raw git patch** using git format-patch
+2. Save in location for user to download
+3. Provide download link and GitHub issue title
+4. User downloads patch and uploads to GitHub issue
 
-**Patch Format**:
-```
-From: Claude <noreply@anthropic.com>
-Subject: [FA-X] Brief description
-
-Detailed explanation of changes and how to apply the patch.
-
----
-diff --git a/path/to/file b/path/to/file
-index abc123..def456 100644
---- a/path/to/file
-+++ b/path/to/file
-@@ -1,3 +1,5 @@
-[actual diff content]
-```
-
-**Note**: Patches are NOT committed to the repository. The user saves them locally and applies them when back at their computer.
+**Workflow**: Download patch → Upload to GitHub issue body → Add `apply-patch` label → Auto-PR created.
 
 **Context for Claude Web**:
 - Reference the active Jira task (FA-X) in all work
