@@ -52,6 +52,11 @@ jobs:
         run: |
           git apply patch.diff
           
+      - name: Clean up temporary files
+        run: |
+          # Remove temporary files so they don't get committed
+          rm -f issue_body.txt patch.diff
+
       - name: Create Pull Request
         id: create_pr
         uses: peter-evans/create-pull-request@v6
