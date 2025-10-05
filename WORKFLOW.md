@@ -89,88 +89,65 @@ git push
 
 When using Claude web, you **cannot edit files directly**. Instead, create patches that can be applied later.
 
-### Creating Patches
+### Creating Patches with GitHub Issue Format
 
-Ask Claude to generate a patch for your changes:
+Ask Claude to generate a patch formatted as a GitHub issue:
 
 ```
-I'm working on FA-X. Please create a patch that [describes the change].
-Generate a git patch file I can save and apply later.
+I'm working on FA-X. Please create a patch for [describes the change].
+Format it as a GitHub issue for the patch-to-PR workflow.
 ```
 
-Claude should respond with a patch in this format:
+**What Claude Does:**
+1. **Pulls actual code** from GitHub repository
+2. **Generates real patch** using git tools (not guessing)
+3. **Creates markdown artifact** with the issue body (description + patch block)
+4. **Provides title separately** for you to copy
 
-```patch
-From: Claude <noreply@anthropic.com>
-Date: 2025-10-04
-Subject: [FA-3] Add OpenAI client configuration
+**What You Get:**
+- **Title** (copy separately): Brief description of the change
+- **Artifact** (copy to paste): Complete issue body with description and patch in code block
 
-Add configuration for OpenAI API client including environment
-variable handling and basic error handling.
+### Using the Patch Artifact
 
----
-diff --git a/src/food_automation/config.py b/src/food_automation/config.py
-new file mode 100644
-index 0000000..1234567
---- /dev/null
-+++ b/src/food_automation/config.py
-@@ -0,0 +1,15 @@
-+"""Configuration management."""
-+
-+import os
-+
-+def get_openai_api_key() -> str:
-+    """Get OpenAI API key from environment."""
-+    key = os.getenv("OPENAI_API_KEY")
-+    if not key:
-+        raise ValueError("OPENAI_API_KEY not set")
-+    return key
+1. **Copy the title** Claude provides
+2. **Copy the artifact content** (the full markdown with description + patch)
+3. Open **GitHub mobile app** → Issues → New Issue
+4. Paste **title** into title field
+5. Paste **artifact content** into body field
+6. Add label: **`apply-patch`**
+7. Submit
+
+The GitHub Action will automatically create a PR from the patch!
+
+### What Happens Next
+
+When you add the `apply-patch` label to the issue:
+
+1. **GitHub Action** extracts the patch from the issue
+2. **Validates** the patch applies cleanly
+3. **Creates PR** automatically with the changes
+4. **Comments** on the issue with the PR link
+
+When back at your computer:
+- Review the auto-created PR
+- Merge when tests pass and changes look good
+- The changes are applied to the main branch!
+
+### Legacy Method: Downloadable Patches
+
+If the GitHub issue workflow isn't working, Claude can also create downloadable patch files:
+
+```
+Create a patch for [change] and save it for download.
 ```
 
-### Saving Patches
+Claude saves to `/mnt/user-data/outputs/` and provides a download link.
 
-1. Copy the patch content from Claude's response
-2. Save locally on your device (Notes app, files, email to yourself, etc.)
-3. Suggested naming: `YYYY-MM-DD-fa-X-description.patch`
-4. Add a Jira comment noting that a patch is ready to apply
-
-### Applying Patches (Back on Desktop)
-
-When you return to your computer:
-
+Apply later with:
 ```bash
-# Pull latest changes
-git pull
-
-# Save the patch to a file (copy from where you saved it)
-# For example, create a temporary patch file:
-cat > /tmp/fa-3-patch.patch
-# Paste the patch content, then Ctrl+D
-
-# Review the patch
-cat /tmp/fa-3-patch.patch
-
-# Apply the patch
-git apply /tmp/fa-3-patch.patch
-
-# Review changes
-git diff
-
-# If good, commit
-git add .
-git commit -m "[FA-3] Apply patch: Add OpenAI client configuration"
-
-# Run checks
-hatch run check
-
-# Fix any issues, then push
-git push
-
-# Clean up temporary file
-rm /tmp/fa-3-patch.patch
+git apply ~/Downloads/patch-file.patch
 ```
-
-**Tip**: You can also save the patch directly to a file on your computer and use `git apply <path-to-patch-file>`.
 
 ## Coordination Between Environments
 
@@ -198,19 +175,18 @@ rm /tmp/fa-3-patch.patch
 **Session 2 (Mobile - Claude web)**:
 1. Check Jira, see FA-3 needs API clients
 2. Review code on GitHub
-3. Ask Claude to generate patch for OpenAI client
-4. Copy patch and save locally (Notes app, email, etc.)
-5. Add Jira comment: "Created patch for OpenAI client - ready to apply when back at computer"
+3. Ask Claude to generate patch formatted as GitHub issue
+4. Copy title and artifact content
+5. Create GitHub issue, paste title and body, add `apply-patch` label
+6. GitHub Action auto-creates PR from patch
+7. Add Jira comment: "Created PR via patch issue - link in issue comments"
 
 **Session 3 (Desktop - Claude Code)**:
-1. Pull latest changes from GitHub
-2. Check Jira, see patch is ready
-3. Retrieve patch from where you saved it (Notes, email, etc.)
-4. Apply patch using `git apply`
-5. Run tests: `hatch run check`
-6. Fix any issues if needed
-7. Commit and push
-8. Update Jira to "Done"
+1. Check GitHub for auto-created PR from patch
+2. Review changes in PR
+3. Run tests if needed: `hatch run check`
+4. Merge PR when ready
+5. Update Jira to "Done"
 
 ## Tips and Best Practices
 
@@ -222,13 +198,14 @@ rm /tmp/fa-3-patch.patch
 - **Mark Jira tasks Done** only after code is pushed to GitHub (for coding tasks)
 
 ### For Claude Web Sessions
-- Always create patches, never attempt to edit files
-- Include detailed explanations in patches
-- Reference the specific Jira task
-- Note in Jira that a patch is ready to apply (include where you saved it)
+- Always create patches formatted as GitHub issues (artifact + title)
+- Claude must pull real code and generate actual patches, not guess content
+- Include detailed explanations in the issue description
+- Reference the specific Jira task in issue title if applicable
+- Copy artifact to GitHub issue body, add `apply-patch` label
 - Review the code on GitHub before suggesting changes
-- Save patches somewhere you can easily retrieve them later
-- **Do NOT mark Jira coding tasks as Done** - only Claude Code/user can do this after pushing to GitHub
+- Check auto-created PR and note PR link in Jira
+- **Do NOT mark Jira coding tasks as Done** - only Claude Code/user can do this after merging PR
 
 ### General
 - Pull before every work session
