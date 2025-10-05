@@ -183,6 +183,12 @@ When back at your computer:
 - **Mark Jira tasks Done** only after code is pushed to GitHub (for coding tasks)
 
 ### For Claude Web Sessions
+- **FIRST: Configure git credentials** before any git operations to prevent errors:
+  ```bash
+  git config user.name "Claude Assistant"
+  git config user.email "claude@anthropic.com"
+  ```
+  The code environment doesn't persist git credentials, so configure them immediately after cloning the repo or initializing git.
 - Always create patch files saved to `/mnt/user-data/outputs/` for download
 - Claude must pull real code and generate actual patches, not guess content
 - Provide clear title for GitHub issue
