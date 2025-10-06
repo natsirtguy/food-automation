@@ -19,8 +19,8 @@ Create a public GitHub repository:
 ```bash
 # Create repo on GitHub, then:
 git remote add origin https://github.com/<username>/food-automation.git
-git branch -M main
-git push -u origin main
+git branch -M master
+git push -u origin master
 ```
 
 Public access is required for Claude web to read the repository.
@@ -132,7 +132,66 @@ When you add the `apply-patch` label to the issue:
 When back at your computer:
 - Review the auto-created PR
 - Merge when tests pass and changes look good
-- The changes are applied to the main branch!
+- The changes are applied to the master branch!
+
+### Alternative: Direct PR Creation with Termux (Mobile)
+
+For a more streamlined mobile workflow, you can use **Termux** with GitHub CLI to apply patches and create PRs directly, skipping the GitHub issue workflow entirely.
+
+#### One-Time Termux Setup (5 minutes)
+
+1. **Install Termux** from F-Droid or Play Store
+2. **Grant storage access and install tools**:
+   ```bash
+   # Grant storage permissions (Android will prompt)
+   termux-setup-storage
+
+   # Install git and GitHub CLI
+   pkg install git gh
+
+   # Authenticate with GitHub
+   gh auth login
+   ```
+
+3. **Clone the repository**:
+   ```bash
+   git clone https://github.com/natsirtguy/food-automation.git
+   cd food-automation
+   ```
+
+#### Per-Patch Termux Workflow
+
+**What Claude provides:**
+- Patch file (download to `~/storage/downloads/`)
+- Ready-to-run command
+
+**What you do:**
+1. Download the patch file
+2. Copy and paste the command in Termux
+3. Done! PR is created automatically
+
+**Example command Claude provides:**
+```bash
+cd ~/food-automation && \
+git checkout master && \
+git pull && \
+git checkout -b FA-X-patch && \
+git apply ~/storage/downloads/patch-name.patch && \
+git add . && \
+git commit -m "[FA-X] Description" && \
+git push -u origin FA-X-patch && \
+gh pr create --fill
+```
+
+**Benefits of Termux workflow:**
+- ✅ No clipboard size limits (no copying large patches)
+- ✅ No GitHub issue needed
+- ✅ One command creates the PR directly
+- ✅ Works entirely on mobile
+
+**When to use:**
+- Use **Termux** when you want the fastest workflow
+- Use **GitHub issues** when you want GitHub to handle patch application via automation
 
 ## Coordination Between Environments
 
@@ -191,9 +250,9 @@ When back at your computer:
   The code environment doesn't persist git credentials, so configure them immediately after cloning the repo or initializing git.
 - Always create patch files saved to `/mnt/user-data/outputs/` for download
 - Claude must pull real code and generate actual patches, not guess content
-- Provide clear title for GitHub issue
-- Download patch file and upload to GitHub issue body
-- Add `apply-patch` label to trigger automation
+- Provide clear title for GitHub issue (or ready-to-run Termux command)
+- **Termux users**: Claude provides complete command using master branch
+- **GitHub issue users**: Download patch, upload to issue body, add `apply-patch` label
 - Review the code on GitHub before suggesting changes
 - Check auto-created PR and note PR link in Jira
 - **Do NOT mark Jira coding tasks as Done** - only Claude Code/user can do this after merging PR
