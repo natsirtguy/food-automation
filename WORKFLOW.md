@@ -147,8 +147,6 @@ For complete mobile development instructions including Termux setup, patch workf
 - Always configure git credentials first (see MOBILE.md)
 - **Install hatch using pipx to test patches**:
   ```bash
-  pip install pipx
-  pipx ensurepath
   pipx install hatch
   ```
 - Test all changes with `hatch run check` before creating patches
