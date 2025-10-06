@@ -69,7 +69,7 @@ Evaluated three leading AI vision services for food identification capabilities:
 
 **API Access**:
 - Endpoint: `https://api.anthropic.com/v1/messages`
-- Model: `claude-sonnet-4-20250514`
+- Model: `claude-sonnet-4-5-20250929` (Sonnet 4.5)
 - Authentication: `x-api-key` header
 - Python SDK: `anthropic` package
 
@@ -228,6 +228,23 @@ python tests/check_anthropic.py /path/to/fridge-photo.jpg
 3. **FA-4**: Collect test image dataset (10-15 fridge photos)
 4. **FA-5**: Develop and refine food identification prompts
 5. **FA-7**: Run comparison test on real images
+
+## Model Selection Notes
+
+### OpenAI Models
+- **Selected**: `gpt-4o` (GPT-4 Omni)
+- **Alternatives considered**: `gpt-4-turbo`, `gpt-4-vision-preview`
+- **Rationale**: GPT-4o offers the best balance of cost, speed, and accuracy for vision tasks. It's OpenAI's latest flagship model with native vision capabilities.
+
+### Anthropic Models
+- **Selected**: `claude-sonnet-4-5-20250929` (Claude Sonnet 4.5)
+- **Alternatives considered**: `claude-sonnet-4-20250514` (Claude 4.0), `claude-opus-4` (higher cost)
+- **Rationale**: Sonnet 4.5 provides excellent vision capabilities at a reasonable cost. Updated from 4.0 to 4.5 for improved performance.
+
+### Future Considerations
+- Monitor for new model releases from both providers
+- Re-evaluate model selection if accuracy/cost requirements change
+- Consider fine-tuning if food-specific accuracy needs improvement
 
 ## Security Best Practices
 

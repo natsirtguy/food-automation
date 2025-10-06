@@ -6,8 +6,9 @@ This directory contains connectivity and functionality tests for AI vision servi
 
 1. **Install dependencies**:
    ```bash
+   # Dependencies are managed by pyproject.toml
+   # Just activate the environment and they'll be available
    hatch shell
-   pip install openai anthropic python-dotenv
    ```
 
 2. **Configure API keys**:
@@ -119,13 +120,11 @@ OPENAI_API_KEY=sk-proj-YOUR_KEY_HERE
 
 ```
 Error: Required package not installed: No module named 'openai'
-Run: hatch shell, then pip install openai python-dotenv
 ```
 
-**Solution**: Install dependencies:
+**Solution**: Dependencies are managed by pyproject.toml. Activate the environment:
 ```bash
 hatch shell
-pip install openai anthropic python-dotenv
 ```
 
 ### Image Not Found

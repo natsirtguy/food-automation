@@ -8,14 +8,9 @@ import base64
 import sys
 from pathlib import Path
 
-try:
-    from openai import OpenAI
+from openai import OpenAI
 
-    from food_automation.config import config
-except ImportError as e:
-    print(f"Error: Required package not installed: {e}")
-    print("Run: hatch shell, then pip install openai python-dotenv")
-    sys.exit(1)
+from food_automation.config import config
 
 
 def encode_image(image_path: Path) -> str:

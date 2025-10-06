@@ -8,15 +8,10 @@ import base64
 import sys
 from pathlib import Path
 
-try:
-    from anthropic import Anthropic
-    from anthropic.types import TextBlock
+from anthropic import Anthropic
+from anthropic.types import TextBlock
 
-    from food_automation.config import config
-except ImportError as e:
-    print(f"Error: Required package not installed: {e}")
-    print("Run: hatch shell, then pip install anthropic python-dotenv")
-    sys.exit(1)
+from food_automation.config import config
 
 
 def encode_image(image_path: Path) -> tuple[str, str]:
@@ -67,7 +62,7 @@ def test_anthropic_connection() -> bool:
 
         # Simple test request
         response = client.messages.create(
-            model="claude-sonnet-4-20250514",
+            model="claude-sonnet-4-5-20250929",
             max_tokens=10,
             messages=[{"role": "user", "content": "Say 'API connection successful'"}],
         )
@@ -113,7 +108,7 @@ def test_anthropic_vision(image_path: Path) -> dict:
         # Analyze image
         # pyright: ignore[reportArgumentType]
         response = client.messages.create(
-            model="claude-sonnet-4-20250514",
+            model="claude-sonnet-4-5-20250929",
             max_tokens=1000,
             messages=[
                 {
@@ -149,7 +144,7 @@ Return results as a JSON list.""",
             result = content_block.text
             print("✅ Anthropic Vision analysis complete")
             print(f"Response: {result}")
-            return {"model": "claude-sonnet-4-20250514", "response": result, "success": True}
+            return {"model": "claude-sonnet-4-5-20250929", "response": result, "success": True}
         else:
             error_msg = f"Unexpected response type: {type(content_block)}"
             print(f"❌ {error_msg}")
