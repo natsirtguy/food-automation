@@ -27,15 +27,15 @@ When working from a phone via claude.ai:
 For each change:
 1. Generate a **raw git patch** using git format-patch
 2. Save in location for user to download
-3. Provide download link and GitHub issue title
-4. User downloads patch and uploads to GitHub issue
+3. Provide download link and ready-to-run Termux command
+4. User downloads patch and runs command in Termux
 
-**Workflow**: Download patch → Upload to GitHub issue body → Add `apply-patch` label → Auto-PR created.
+**Workflow**: Download patch → Run Termux command → PR created directly.
 
 **Context for Claude Web**:
 - Reference the active Jira task (FA-X) in all work
 - This file (CLAUDE.md) provides project context
-- See WORKFLOW.md for detailed patch workflow
+- See WORKFLOW.md for detailed Termux patch workflow
 - Check requirements.md and implementation-guide.md for project details
 
 ### Jira Task Management
