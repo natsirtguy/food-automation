@@ -6,9 +6,11 @@ AI-powered food inventory monitoring system that tracks what food you have, quan
 
 This project supports **hybrid development** from both desktop and mobile:
 - **Desktop**: Use Claude Code for full development
-- **Mobile**: Use Claude web with patch-based workflow
+- **Mobile**: Use Claude web with patch-based Termux workflow
 
 **📋 See [WORKFLOW.md](WORKFLOW.md) for complete workflow documentation**
+
+**📱 See [MOBILE.md](MOBILE.md) for mobile development with Termux**
 
 **📝 See [CLAUDE.md](CLAUDE.md) for project context and AI assistant guidance**
 

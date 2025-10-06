@@ -10,6 +10,8 @@ The project uses a **dual-environment workflow**:
 
 All work is tracked in **Jira** (project key: FA) and synchronized via **GitHub**.
 
+**📱 See [MOBILE.md](MOBILE.md) for complete mobile development guide with Termux setup and patch workflow**
+
 ## Setup
 
 ### 1. GitHub Repository
@@ -85,79 +87,13 @@ git push
 
 ## Working with Claude Web (Mobile)
 
-### Patch-Based Workflow with Termux
+For complete mobile development instructions including Termux setup, patch workflow, and testing, see **[MOBILE.md](MOBILE.md)**.
 
-When using Claude web, you **cannot edit files directly**. Instead, create patches that can be applied using **Termux** on your mobile device.
-
-### Creating Patches
-
-Ask Claude to generate a patch:
-
-```
-I'm working on FA-X. Please create a patch for [describes the change].
-Save it to outputs for the Termux workflow.
-```
-
-**What Claude Does:**
-1. **Pulls actual code** from GitHub repository
-2. **Generates real patch** using git format-patch
-3. **Saves patch file** in location for user to download
-4. **Provides download link** and ready-to-run Termux command
-
-**What You Get:**
-- **Download link**: Patch file ready to download
-- **Termux command**: Complete command to apply patch and create PR
-
-### Termux Setup (One-Time, 5 minutes)
-
-1. **Install Termux** from F-Droid or Play Store
-2. **Grant storage access and install tools**:
-   ```bash
-   # Grant storage permissions (Android will prompt)
-   termux-setup-storage
-
-   # Install git and GitHub CLI
-   pkg install git gh
-
-   # Authenticate with GitHub
-   gh auth login
-   ```
-
-3. **Clone the repository**:
-   ```bash
-   git clone https://github.com/natsirtguy/food-automation.git
-   cd food-automation
-   ```
-
-### Using the Patch
-
-**What Claude provides:**
-- Patch file (download to `~/storage/downloads/`)
-- Ready-to-run command
-
-**What you do:**
-1. Download the patch file
-2. Copy and paste the command in Termux
-3. Done! PR is created automatically
-
-**Example command Claude provides:**
-```bash
-cd ~/food-automation && \
-git checkout master && \
-git pull && \
-git checkout -b FA-X-patch && \
-git apply ~/storage/downloads/patch-name.patch && \
-git add . && \
-git commit -m "[FA-X] Description" && \
-git push -u origin FA-X-patch && \
-gh pr create --fill
-```
-
-**Benefits of Termux workflow:**
-- ✅ No clipboard size limits (no copying large patches)
-- ✅ One command creates the PR directly  
-- ✅ Works entirely on mobile
-- ✅ Fast and streamlined
+**Quick Reference:**
+- Claude web creates git patches instead of editing files directly
+- Download patches and apply them using Termux on your mobile device
+- One command applies patch and creates PR automatically
+- See MOBILE.md for full setup and usage guide
 
 ## Coordination Between Environments
 
@@ -207,18 +143,18 @@ gh pr create --fill
 - **Mark Jira tasks Done** only after code is pushed to GitHub (for coding tasks)
 
 ### For Claude Web Sessions
-- **FIRST: Configure git credentials** before any git operations to prevent errors:
+- See **[MOBILE.md](MOBILE.md)** for complete patch workflow instructions
+- Always configure git credentials first (see MOBILE.md)
+- **Install hatch using pipx to test patches**:
   ```bash
-  git config user.name "Claude Assistant"
-  git config user.email "claude@anthropic.com"
+  pip install pipx
+  pipx ensurepath
+  pipx install hatch
   ```
-  The code environment doesn't persist git credentials, so configure them immediately after cloning the repo or initializing git.
-- Always create patch files saved to `/mnt/user-data/outputs/` for download
-- Claude must pull real code and generate actual patches, not guess content
+- Test all changes with `hatch run check` before creating patches
+- Create patch files saved to `/mnt/user-data/outputs/` for download
+- Pull real code and generate actual patches, not guess content
 - Provide ready-to-run Termux command with the patch
-- Claude provides complete command using master branch
-- Review the code on GitHub before suggesting changes
-- Note PR link in Jira after creating it via Termux
 - **Do NOT mark Jira coding tasks as Done** - only Claude Code/user can do this after merging PR
 
 ### General
