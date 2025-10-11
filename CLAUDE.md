@@ -55,6 +55,36 @@ For each change:
 - Public repository required for Claude web access to codebase
 - All changes should go through git (patches or direct commits)
 
+## Development Environment
+
+This project uses **Hatch** for Python environment and dependency management.
+
+**IMPORTANT**: Always use `hatch run` to execute Python commands and scripts.
+
+### Common Commands
+```bash
+# Run Python scripts
+hatch run python -m tests.check_openai <image-path>
+hatch run python -m tests.check_anthropic <image-path>
+
+# Run tests
+hatch run test
+
+# Code quality checks
+hatch run format    # Format code with ruff
+hatch run lint      # Lint code with ruff
+hatch run typecheck # Type check with pyright
+hatch run check     # Run all checks (format, lint, typecheck, test)
+```
+
+### Environment Details
+- Virtual environment location: `.hatch/food-automation/`
+- Python version: 3.12+
+- Dependencies defined in: `pyproject.toml`
+- The hatch environment is automatically created and managed
+
+**Never use bare `python` or `pip` commands** - always prefix with `hatch run`.
+
 ## Development Approach
 
 ### Phase-Based Implementation
