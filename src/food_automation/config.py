@@ -4,18 +4,12 @@ Loads API keys and settings from environment variables.
 """
 
 import os
-from pathlib import Path
 from typing import Literal
 
-# Load .env file if it exists
-try:
-    from dotenv import load_dotenv
+# Load .env file if it exists (searches cwd and parent directories)
+from dotenv import load_dotenv
 
-    env_path = Path(__file__).parent.parent.parent / ".env"
-    if env_path.exists():
-        load_dotenv(env_path)
-except ImportError:
-    pass  # python-dotenv not required, but helpful for development
+load_dotenv()
 
 
 class Config:
