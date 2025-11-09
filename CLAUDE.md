@@ -10,50 +10,27 @@ Food Automation is an AI-powered food inventory monitoring system that automatic
 
 ## Development Workflow
 
-This project uses a **hybrid development approach**:
-
-### Claude Code (Desktop)
-When working from a computer, use Claude Code for full development capabilities including:
+### Claude Code
+Use Claude Code (desktop or web) for full development capabilities including:
 - Direct file editing and commits
 - Running tests and code quality checks
 - Updating Jira tasks
-- Git operations
-
-### Claude Web (Mobile)
-When working from a phone via claude.ai:
-
-**IMPORTANT**: You must create patches for ALL code changes instead of editing files directly.
-
-For each change:
-1. Generate a **raw git patch** using git format-patch
-2. Save in location for user to download
-3. Provide download link and ready-to-run Termux command
-4. User downloads patch and runs command in Termux
-
-**Workflow**: Download patch → Run Termux command → PR created directly.
-
-**Context for Claude Web**:
-- Reference the active Jira task (FA-X) in all work
-- This file (CLAUDE.md) provides project context
-- See WORKFLOW.md for detailed Termux patch workflow
-- Check requirements.md and implementation-guide.md for project details
+- Git operations and pull requests
 
 ### Jira Task Management
 - All development work should reference a Jira task (FA-X)
 - Update task status as work progresses
 - Add comments to tasks documenting significant progress
-- Use Jira to coordinate between Claude Code and Claude web sessions
+- Use Jira to coordinate between different work sessions
 
 **Task Completion Policy**:
-- **Claude Code**: Mark coding tasks "Done" only after code is pushed to GitHub
-- **Claude Web**: Do NOT mark coding tasks "Done" (can update to "In Progress" or add comments)
-- **Non-coding tasks** (research, planning): Can be marked Done without git push
-- **User override**: User can mark tasks Done manually at any time
+- Mark coding tasks "Done" only after code is pushed to GitHub (typically after PR is merged)
+- Non-coding tasks (research, planning) can be marked Done without git push
+- User can mark tasks Done manually at any time
 
 ### Repository Access
 - **GitHub**: https://github.com/natsirtguy/food-automation
-- Public repository required for Claude web access to codebase
-- All changes should go through git (patches or direct commits)
+- All changes should go through git with pull requests for review
 
 ## Development Environment
 
